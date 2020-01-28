@@ -1,0 +1,49 @@
+﻿<Window x:Class="HAMS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:HAMS"
+        xmlns:ucs="clr-namespace:HAMS.UCS"
+        mc:Ignorable="d" FontSize="14" WindowStartupLocation="CenterScreen"
+        MinWidth="900" MinHeight="600"
+        Title="房屋中介管理系统" Height="600" Width="900" Loaded="Window_Loaded">
+  <Window.Resources>
+    <HierarchicalDataTemplate x:Key="MenuItemDataTemplate" ItemsSource="{Binding Nodes}">
+      <HierarchicalDataTemplate.ItemContainerStyle>
+        <Style TargetType="MenuItem">
+          <Setter Property="Command" Value="{Binding RelayCommand}"/>
+          <Setter Property="CommandParameter" Value="{Binding ID}"/>
+        </Style>
+      </HierarchicalDataTemplate.ItemContainerStyle>
+      <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+    </HierarchicalDataTemplate>
+    <HierarchicalDataTemplate x:Key="TreeItemDataTemplate" ItemsSource="{Binding Nodes}">
+      <TextBlock VerticalAlignment="Center" Text="{Binding Name}">
+        <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+          <i:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="{Binding ID}"/>
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+      </TextBlock>
+    </HierarchicalDataTemplate>
+  </Window.Resources>
+  <DockPanel>
+    <Menu DockPanel.Dock="Top" x:Name="MenuMain" FontSize="14" ItemTemplate="{StaticResource MenuItemDataTemplate}">
+    </Menu>
+    <ToolBar DockPanel.Dock="Top"/>
+    <StatusBar DockPanel.Dock="Bottom">
+      <TextBlock Text="登录用户:" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+      <StatusBarItem x:Name="StbName" HorizontalAlignment="Left"/>
+      <Separator Margin="20,0"/>
+      <TextBlock Text="登录时间:" HorizontalAlignment="Left"/>
+      <StatusBarItem x:Name="StbLoginTime" HorizontalAlignment="Left"/>
+      <Separator Margin="20,0"/>
+      <TextBlock Text="当前时间:" HorizontalAlignment="Left"/>
+      <StatusBarItem x:Name="StbCurTime" HorizontalAlignment="Left"/>
+    </StatusBar>
+    <TreeView DockPanel.Dock="Left" x:Name="TvMenu" ItemTemplate="{StaticResource TreeItemDataTemplate}" Padding="0,5"/>
+    <UniformGrid x:Name="GrdWork"/>
+  </DockPanel>
+</Window>
